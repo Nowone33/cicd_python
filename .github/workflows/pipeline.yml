@@ -18,16 +18,39 @@ jobs:
         with:
           python-version: "3.12"
 
-      # - name: Installation des dépendances
-      #   run: pip install -r requirements.txt
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
 
       - name: Execution du programme
         run: python main.py
 
+  linting:
+    name: verification du lint
+    runs-on: ubuntu-24.04
+    needs: compilation
+
+    steps:
+      - name: Recuperation du depot
+        uses: actions/checkout@v4
+
+      - name: Installation de python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
+
+      - name: Verification des types
+        run: mypy calculs
+
+      - name: Correction du formattage
+        run: black calculs tests
+
   test:
     name: job de test
     runs-on: ubuntu-24.04
-    needs: compilation
+    needs: linting
 
     steps:
       - name: Recuperation du depot
@@ -44,19 +67,11 @@ jobs:
       - name: Execution des tests
         run: pytest tests/ -v
 
-  linting:
-    name: verification du lint
-    runs-on: ubuntu-24.04
-    needs: test
-
-    steps:
-      - run: echo "Verification du lint"
-
 
   build:
     name: build project
     runs-on: ubuntu-24.04
-    needs: linting
+    needs: test
 
     steps:
       - run: echo "Le projet build"
