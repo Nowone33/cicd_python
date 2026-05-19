@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Recuperation du depot
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Installation de python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Installation des dépendances
         run: pip install -r requirements.txt
