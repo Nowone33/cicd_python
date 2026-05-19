@@ -1,7 +1,7 @@
 """Tests unitaires pour le module de calculs."""
 
 import pytest
-from calculs.core import additionner, soustraire, multiplier
+from calculs.core import additionner, soustraire, multiplier, diviser
 
 
 class TestAdditionner:
