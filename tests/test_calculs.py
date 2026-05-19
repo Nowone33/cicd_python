@@ -39,7 +39,7 @@ class TestMultiplier:
 
 
 class TestDiviser:
-    def test_entiers(self);
+    def test_entiers(self):
         assert diviser(20,5) == 4
 
     def test_type_incorrect(self):
