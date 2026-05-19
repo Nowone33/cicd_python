@@ -38,6 +38,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Verification présence pytest
+        run: pytest --version
+
       - name: Execution des tests
         run: pytest --cov=calculs --cov-report=term-missing
 
