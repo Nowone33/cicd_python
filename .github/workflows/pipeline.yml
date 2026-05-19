@@ -39,7 +39,7 @@ jobs:
           python-version: "3.12"
 
       - name: Execution des tests
-        run: pytest tests/ -v
+        run: pytest --cov=calculs --cov-report=term-missing
 
   linting:
     name: verification du lint
