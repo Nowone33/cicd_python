@@ -30,8 +30,16 @@ jobs:
     needs: compilation
 
     steps:
-      - run: echo "Lancement des tests"
+      - name: Recuperation du depot
+        uses: actions/checkout@v4
 
+      # - name: Installation de python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: "3.12"
+
+      - name: Execution des tests
+        run: pytest tests/ -v
 
   linting:
     name: verification du lint
