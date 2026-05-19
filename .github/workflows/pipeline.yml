@@ -47,6 +47,9 @@ jobs:
       - name: Correction du formattage
         run: black calculs tests
 
+      - name: Check quality
+        run: flake8 calculs tests
+
   test:
     name: job de test
     runs-on: ubuntu-24.04
@@ -61,11 +64,14 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Verification présence pytest
-        run: pip install pytest
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
 
       - name: Execution des tests
-        run: pytest tests/ -v
+        run: pytest --cov=calculs --cov-report=term-missing
+
+      - name: Check du coverage
+        run: pytest --cov=calculs --cov-report=term-missing --cov-fail-under=90
 
 
   build:
@@ -74,7 +80,22 @@ jobs:
     needs: test
 
     steps:
-      - run: echo "Le projet build"
+      - name: Recuperation du depot
+        uses: actions/checkout@v4
+
+      - name: Installation de python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
+
+      - name: Mise en place du build
+        run: pyinstaller --onefile --name calculs-snapshot main.py 
+    
+      - name: Vérification présence du build
+        run: ls dist/calculs
 
 
   succes:
