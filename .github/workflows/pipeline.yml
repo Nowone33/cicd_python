@@ -1,0 +1,49 @@
+name: Pipeline CICD
+
+on:
+  push:
+
+
+jobs: 
+  compilation:
+    name: job de compilation
+    runs-on: ubuntu-24.04
+
+    steps:
+      - run: echo "lancement de la compilation"
+
+
+  test:
+    name: job de test
+    runs-on: ubuntu-24.04
+    needs: compilation
+
+    steps:
+      - run: echo "Lancement des tests"
+
+
+  linting:
+    name: verification du lint
+    runs-on: ubuntu-24.04
+    needs: test
+
+    steps:
+      - run: echo "Verification du lint"
+
+
+  build:
+    name: build project
+    runs-on: ubuntu-24.04
+    needs: linging
+
+    steps:
+      - run: echo "Le projet build"
+
+
+  succes:
+    name: succes pipeline
+    runs-on: ubuntu-slim
+    needs: [compilation, test, linting, build]
+    steps:
+      - run: echo "La pipeline est validée"
+
