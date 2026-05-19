@@ -10,8 +10,19 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - run: echo "lancement de la compilation"
+      - name: Recuperation du depot
+        uses: actions/checkout@v3
 
+      - name: Installation de python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.12"
+
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
+
+      - name: Execution du programme
+        run: python main.py
 
   test:
     name: job de test
