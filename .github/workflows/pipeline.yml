@@ -95,8 +95,7 @@ jobs:
         run: pyinstaller --onefile --name calculs-snapshot main.py 
     
       - name: Vérification présence du build
-        run: ls dist/calculs
-
+        run: ls dist/
 
   succes:
     name: succes pipeline
