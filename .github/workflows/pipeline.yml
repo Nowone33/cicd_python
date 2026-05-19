@@ -42,7 +42,7 @@ jobs:
         run: pip install pytest
 
       - name: Execution des tests
-        run: pytest --cov=calculs --cov-report=term-missing
+        run: pytest tests/ -v
 
   linting:
     name: verification du lint
