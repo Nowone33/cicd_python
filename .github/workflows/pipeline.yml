@@ -34,7 +34,7 @@ jobs:
   build:
     name: build project
     runs-on: ubuntu-24.04
-    needs: linging
+    needs: linting
 
     steps:
       - run: echo "Le projet build"
