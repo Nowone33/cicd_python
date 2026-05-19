@@ -39,7 +39,7 @@ jobs:
           python-version: "3.12"
 
       - name: Verification présence pytest
-        run: pytest --version
+        run: pip install pytest
 
       - name: Execution des tests
         run: pytest --cov=calculs --cov-report=term-missing
