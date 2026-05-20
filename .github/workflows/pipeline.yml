@@ -7,11 +7,14 @@ on:
 jobs: 
   compilation:
     name: job de compilation
-    runs-on: ubuntu-24.04
 
     strategy:
       matrix:
         python_version: ["3.12", "3.13" ,"3.14"]
+        os_version : [ ubuntu-22.04, ubuntu-24.04]
+
+
+    runs-on: ${{ matrix.os_version}}
 
     steps:
       - name: Recuperation du depot
