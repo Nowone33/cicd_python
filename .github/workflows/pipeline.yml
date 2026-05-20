@@ -1,0 +1,106 @@
+name: Pipeline CICD
+
+on:
+  push:
+
+
+jobs: 
+  compilation:
+    name: job de compilation
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Recuperation du depot
+        uses: actions/checkout@v4
+
+      - name: Installation de python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
+
+      - name: Execution du programme
+        run: python main.py
+
+  linting:
+    name: verification du lint
+    runs-on: ubuntu-24.04
+    needs: compilation
+
+    steps:
+      - name: Recuperation du depot
+        uses: actions/checkout@v4
+
+      - name: Installation de python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
+
+      - name: Verification des types
+        run: mypy calculs
+
+      - name: Correction du formattage
+        run: black calculs tests
+
+      - name: Check quality
+        run: flake8 calculs tests
+
+  test:
+    name: job de test
+    runs-on: ubuntu-24.04
+    needs: linting
+
+    steps:
+      - name: Recuperation du depot
+        uses: actions/checkout@v4
+
+      - name: Installation de python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
+
+      - name: Execution des tests
+        run: pytest --cov=calculs --cov-report=term-missing
+
+      - name: Check du coverage
+        run: pytest --cov=calculs --cov-report=term-missing --cov-fail-under=90
+
+
+  build:
+    name: build project
+    runs-on: ubuntu-24.04
+    needs: test
+
+    steps:
+      - name: Recuperation du depot
+        uses: actions/checkout@v4
+
+      - name: Installation de python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
+
+      - name: Mise en place du build
+        run: pyinstaller --onefile --name calculs-snapshot main.py 
+    
+      - name: Vérification présence du build
+        run: ls dist/
+
+  succes:
+    name: succes pipeline
+    runs-on: ubuntu-slim
+    needs: [compilation, test, linting, build]
+    steps:
+      - run: echo "La pipeline est validée"
+
