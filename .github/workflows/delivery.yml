@@ -19,7 +19,7 @@ jobs:
 
     steps: 
       - name: Checkout Repository 
-        uses: uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name:  Login to Github Container registry
         uses: docker/login-action@4907a6ddec9925e35a0a9z82s7399ccc52663121
