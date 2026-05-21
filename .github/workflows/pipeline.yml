@@ -2,6 +2,10 @@ name: Pipeline CICD
 
 on:
   push:
+    branches: [feature/*]
+  pull_requests:
+    branches: [main]
+
 
 
 jobs: 
