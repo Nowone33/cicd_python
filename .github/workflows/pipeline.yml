@@ -130,7 +130,7 @@ jobs:
 
   call-reusable-workflow:
     name: Appel d'un workflow réutilisable
-    uses: nowone33/cicd_python/.github/workflow/reusable.yml
+    uses: nowone33/cicd_python/.github/workflow/reusable.yml@feature/newWorkflow
     with:
       name: ${{ github.actor }}
 
