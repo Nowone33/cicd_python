@@ -3,7 +3,7 @@ name: Pipeline CICD
 on:
   push:
     branches: [feature/*]
-  pull_requests:
+  pull_request:
     branches: [main]
 
 
