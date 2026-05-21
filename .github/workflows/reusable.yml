@@ -1,11 +1,11 @@
 name: Reusable workflow
 
 on:
-workflow_call:
-  inputs:
-    name:
-      required: true
-      type: string
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
 
 jobs:
   speaker:
