@@ -43,7 +43,7 @@ jobs:
       matrix:
         python_version: ["3.12", "3.13" ,"3.14"]
         
-    runs-on: self-hosted
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Recuperation du depot
@@ -128,10 +128,19 @@ jobs:
       - name: Vérification présence du build
         run: ls dist/
 
+  call-reusable-workflow:
+    name: Appel d'un workflow réutilisable
+    uses: nowone33/cicd_python/.github/workflow/reusable.yml
+    with:
+      name: ${{ github.actor }}
+
   succes:
     name: succes pipeline
     runs-on: ubuntu-slim
     needs: [compilation, test, linting, build]
     steps:
-      - run: echo "La pipeline est validée"
+      - name: La pipeline est elle validée ?
+        run: echo "La pipeline est validée"
+
+
 

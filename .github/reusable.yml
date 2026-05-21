@@ -1,0 +1,15 @@
+name: Reusable workflow
+
+on:
+workflow_call:
+  inputs:
+    name:
+      required: true
+      type: string
+
+jobs:
+  speaker:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Say my name
+        run: echo ${{ inputs.name }}
