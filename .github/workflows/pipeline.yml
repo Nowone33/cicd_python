@@ -2,12 +2,23 @@ name: Pipeline CICD
 
 on:
   push:
+    branches: [feature/*]
+  pull_request:
+    branches: [main]
+
 
 
 jobs: 
   compilation:
     name: job de compilation
-    runs-on: ubuntu-24.04
+
+    strategy:
+      matrix:
+        python_version: ["3.12", "3.13" ,"3.14"]
+        os_version : [ ubuntu-22.04, ubuntu-24.04]
+
+
+    runs-on: ${{ matrix.os_version}}
 
     steps:
       - name: Recuperation du depot
@@ -16,7 +27,7 @@ jobs:
       - name: Installation de python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python_version }}
 
       - name: Installation des dépendances
         run: pip install -r requirements.txt
@@ -26,8 +37,15 @@ jobs:
 
   linting:
     name: verification du lint
-    runs-on: ubuntu-24.04
     needs: compilation
+
+    strategy:
+      matrix:
+        python_version: ["3.12", "3.13" ,"3.14"]
+        os_version : [ ubuntu-22.04, ubuntu-24.04]
+
+
+    runs-on: ${{ matrix.os_version}}
 
     steps:
       - name: Recuperation du depot
@@ -36,7 +54,7 @@ jobs:
       - name: Installation de python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python_version }}
 
       - name: Installation des dépendances
         run: pip install -r requirements.txt
@@ -52,8 +70,16 @@ jobs:
 
   test:
     name: job de test
-    runs-on: ubuntu-24.04
     needs: linting
+
+
+    strategy:
+      matrix:
+        python_version: ["3.12", "3.13" ,"3.14"]
+        os_version : [ ubuntu-22.04, ubuntu-24.04]
+
+
+    runs-on: ${{ matrix.os_version}}
 
     steps:
       - name: Recuperation du depot
@@ -62,7 +88,7 @@ jobs:
       - name: Installation de python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python_version }}
 
       - name: Installation des dépendances
         run: pip install -r requirements.txt
@@ -76,8 +102,14 @@ jobs:
 
   build:
     name: build project
-    runs-on: ubuntu-24.04
     needs: test
+
+    strategy:
+      matrix:
+        python_version: ["3.12", "3.13" ,"3.14"]
+        os_version : [ ubuntu-22.04, ubuntu-24.04]
+
+    runs-on: ${{ matrix.os_version}}
 
     steps:
       - name: Recuperation du depot
@@ -86,7 +118,8 @@ jobs:
       - name: Installation de python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python_version }}
+
 
       - name: Installation des dépendances
         run: pip install -r requirements.txt
