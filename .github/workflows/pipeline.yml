@@ -39,32 +39,13 @@ jobs:
     name: verification du lint
     needs: compilation
 
-    strategy:
-      matrix:
-        python_version: ["3.12", "3.13" ,"3.14"]
-        
     runs-on: ubuntu-24.04
 
     steps:
-      - name: Recuperation du depot
-        uses: actions/checkout@v4
+      - name: Recuperation de l'action lint custom
+        uses: ./.github/actions/myLintAction
 
-      - name: Installation de python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python_version }}
-
-      - name: Installation des dépendances
-        run: pip install -r requirements.txt
-
-      - name: Verification des types
-        run: mypy calculs
-
-      - name: Correction du formattage
-        run: black calculs tests
-
-      - name: Check quality
-        run: flake8 calculs tests
+      
 
   test:
     name: job de test

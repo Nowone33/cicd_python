@@ -1,0 +1,31 @@
+name: myLintAction
+description: Runs a python linter 
+
+inputs:
+  target:
+    description: 'The target to lint'
+    required: true
+    default: ${{ github.workspace }}
+  
+runs:
+  using: 'composite'
+  steps:
+    - name: Recuperation du depot
+      uses: actions/checkout@v4
+
+    - name: Installation de python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Installation des dépendances
+      run: pip install -r requirements.txt
+
+    - name: Verification des types
+      run: mypy calculs
+
+    - name: Correction du formattage
+      run: black calculs tests
+
+    - name: Check quality
+      run: flake8 calculs tests
