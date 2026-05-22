@@ -42,10 +42,12 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
+
+      - name: Recuperation du depot
+        uses: actions/checkout@v4
+
       - name: Recuperation de l'action lint custom
         uses: ./.github/actions/myLintAction
-
-      
 
   test:
     name: job de test
