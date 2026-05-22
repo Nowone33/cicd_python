@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Recuperation de l'action lint custom
-        uses: ./.github/actions/myLintAction
+        uses: ./.github/actions
 
   test:
     name: job de test
