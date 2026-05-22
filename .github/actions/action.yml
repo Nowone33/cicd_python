@@ -10,9 +10,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Recuperation du depot
-      uses: actions/checkout@v4
-
     - name: Installation de python
       uses: actions/setup-python@v5
       with:
@@ -20,12 +17,16 @@ runs:
 
     - name: Installation des dépendances
       run: pip install -r requirements.txt
+      shell: bash
 
     - name: Verification des types
       run: mypy calculs
+      shell: bash
 
     - name: Correction du formattage
       run: black calculs tests
+      shell: bash
 
     - name: Check quality
       run: flake8 calculs tests
+      shell: bash
